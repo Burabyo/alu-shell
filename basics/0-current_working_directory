@@ -1,2 +1,2 @@
 #!/bin/bash
-echo '/tmp/correction/6495822274182205914215415629726436211546_5/2019/6460/basics'
+pwd /alu-shell/basics/0-current_working_directory
