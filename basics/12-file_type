@@ -1,2 +1,2 @@
 #!/bin/bash
-xdg-open /tmp/iamafile
+file /tmp/iamafile
