@@ -1,2 +1,2 @@
 #!/bin/bash
-chmod +x count_directories.sh
+echo "Number of directories and sub-directories: $(find . -type d ! -name '.' ! -name '..' | wc -l)"
