@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+#using until to loop
 count=1
 
 until [ $count -gt 10 ]
