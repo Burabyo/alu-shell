@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
-#the clock
-hour=0
+#clock
 
-while [ $hour -le 12 ]
-do
-  minute=1
-  while [ $minute -le 59 ]
-  do
-    echo "$hour:$minute"
-    minute=$(( minute + 1 ))
-  done
-  hour=$(( hour + 1 ))
+hours=0
+
+# Display hours from 0 to 12
+while [ $hours -le 12 ]; do
+  echo "$hours hours"
+  hours=$((hours + 1))
+done
+
+minutes=0
+
+# Display minutes from 0 to 59
+while [ $minutes -le 59 ]; do
+  echo "$minutes minutes"
+  minutes=$((minutes + 1))
 done
 
