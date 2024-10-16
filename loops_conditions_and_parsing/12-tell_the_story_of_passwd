@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-# Read the /etc/passwd file line by line
-while IFS=: read -r username password uid gid description home shell; do
-  # Format and display the output
-  echo "The user $username is part of the $gid gang, lives in $home and rides $shell. $uid's place is protected by the passcode $password, more info about the user here: $description"
-done < /etc/passwd
+# Check if the log file is provided as an argument
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <apache_log_file>"
+    exit 1
+fi
 
+# Use awk to extract IP and HTTP status code
+awk '{print $1 " " $9}' "$1"
