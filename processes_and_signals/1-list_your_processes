@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-# Display all running processes with user-oriented format and process hierarchy
-ps -e -o user=,start=,command= --forest
+#script output process running with all information about it
+ps auxf
