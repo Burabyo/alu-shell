@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #coding
 PID_FILE="/var/run/my_process.pid"
 PROCESS_SCRIPT="/path/to/manage_my_process"  # Update this path to where manage_my_process is located
