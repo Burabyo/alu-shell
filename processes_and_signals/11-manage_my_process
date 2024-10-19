@@ -1,40 +1,49 @@
-#!/usr/bin/env bash
-#starts stop restart script depending on the argument passed
+#!/bin/bash
+#coding
+PID_FILE="/var/run/my_process.pid"
+PROCESS_SCRIPT="/path/to/manage_my_process"  # Update this path to where manage_my_process is located
 
-function startup(){
-	bash ./manage_my_process &
-	echo "$!" > /var/run/my_process.pid
+start() {
+    if [ -f "$PID_FILE" ]; then
+        echo "Process already running!"
+    else
+        # Start the process
+        nohup bash "$PROCESS_SCRIPT" &> /dev/null &
+        echo $! > "$PID_FILE"
+        echo "manage_my_process started"
+    fi
 }
 
-function stopnow(){
-	[ -e "/var/run/my_process.pid" ] && pkill -f './manage_my_process' && rm /var/run/my_process.pid 
+stop() {
+    if [ -f "$PID_FILE" ]; then
+        # Kill the process
+        kill "$(cat $PID_FILE)" 2>/dev/null
+        rm -f "$PID_FILE"
+        echo "manage_my_process stopped"
+    else
+        echo "No process running!"
+    fi
 }
 
-function restartnow(){
-	stopnow
-	startup
-	echo "manage_my_process restarted"
+restart() {
+    stop
+    start
+    echo "manage_my_process restarted"
 }
-if [ $# -eq 1 ] 
-then
-	OPTIONN="$1"
-	case $OPTIONN in
-	"start")
-		startup
-	echo "manage_my_process started"
-	;;
-	"stop")
-		#stopnow
-		stopnow
-	      	echo "manage_my_process stopped"
-	;;
-        "restart")
-	restartnow
-	;;
-	*)
-	echo "Usage: manage_my_process {start|stop|restart}"
-	;;
-       esac
-else 
-	echo "Usage: manage_my_process {start|stop|restart}"
-fi
+
+# Check arguments passed to the script
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    *)
+        echo "Usage: manage_my_process {start|stop|restart}"
+        ;;
+esac
+
