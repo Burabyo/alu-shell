@@ -1,24 +1,52 @@
-#!/usr/bin/env bash
-# Manages my process
-if [ "${1}" == "start" ]
-then
+#!/usr/bin/env bash 
+#Bash (init) script 11-manage_my_process that manages manage_my_process
+
+#!/bin/bash
+
+PID_FILE="/var/run/my_process.pid"
+
+start() {
     ./manage_my_process &
-    touch /var/run/my_process.pid
-    echo "$!" > /var/run/my_process.pid
+    echo $! > "$PID_FILE"
     echo "manage_my_process started"
-elif [ "${1}" == "stop" ]
-then
-    echo "manage_my_process stopped"
-    kill "$(cat /var/run/my_process.pid)"
-    rm /var/run/my_process.pid
-elif [ "${1}" == "restart" ]
-then
-    kill "$(cat /var/run/my_process.pid)"
-    rm /var/run/my_process.pid
+}
+
+stop() {
+    if [ -f "$PID_FILE" ]; then
+        pid=$(cat "$PID_FILE")
+        kill "$pid"
+        rm "$PID_FILE"
+        echo "manage_my_process stopped"
+    else
+        echo "manage_my_process is not running"
+    fi
+}
+
+restart() {
+    if [ -f "$PID_FILE" ]; then
+        pid=$(cat "$PID_FILE")
+        kill "$pid"
+        rm "$PID_FILE"
+    fi
     ./manage_my_process &
-    touch /var/run/my_process.pid
-    echo "$!" > /var/run/my_process.pid
+    echo $! > "$PID_FILE"
     echo "manage_my_process restarted"
-else
-    echo "Usage: manage_my_process {start|stop|restart}"
-fi
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    *)
+        echo "Usage: manage_my_process {start|stop|restart}"
+        exit 1
+        ;;
+esac
+
+exit 0
